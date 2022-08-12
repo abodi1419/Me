@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color: #3f3f3f;
+            color: white;
+            margin: 0;
+        }
+        .header{
+            position: fixed;
+            height: 50px;
+            width: 100%;
+            background-color: #2f2f2f;
+        }
+        .header h3{
+            text-align: center;
+        }
+        h3{
+            margin: 0;
+        }
+        .title{
+            font-size: 20px;
+        }
+        .title h3{
+            color: #4e8526;
+            text-align: center;
+        }
+        .close{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+        }
+        .header li{
+            display: inline;
+            margin-right: 20px;
+        }
+        input{
+            background-color: transparent;
+            border: 0;
+            width: auto;
+            padding-left: 10px;
+            height: 35px;
+            outline: none;
+            color: white;
+            font-size: 20px;
+
+        }
+        .path{
+            display: inline;
+            color: #34e0cc;
+        }
+        .content{
+            padding-top: 51px;
+        }.pl-5{
+            padding-left: 20px;
+
+        }.text-cyan{
+            color: #34e0cc;
+        }
+        .text-green{
+            color: #4e8526;;
+        }.text-red{
+            color: #ef2929;
+         }
+        .text-magenta {
+            color: #ad7fa8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h3>Terminal</h3>
+        <div class="close">X</div>
+        <ul>
+            <li onclick="submit('about')">About</li>
+            <li onclick="submit('skills')">Skills</li>
+            <li onclick="submit('work')">Work</li>
+            <li onclick="submit('contact')">Contact</li>
+        </ul>
+    </div>
+    <div class="content" id="commandLine">
+
+        <div id="command1">
+            <label for="command"><h3 class="path">Abdullah@ubuntu:</h3></label>
+            <input id="command">
+        </div>
+
+    </div>
+    <script>
+        let history = [];
+        let index = 0;
+        let current = 0;
+        let commandLine = document.getElementById('commandLine');
+        let temp =document.getElementById('command');
+        temp.addEventListener('keyup', handler)
+        temp.focus();
+        temp.onblur = function () {
+            setTimeout(function () {
+                temp.focus();
+            });
+        };
+
+
+        function submit(value) {
+
+            let input = document.getElementById('command')
+            let i =0
+            let interval = setInterval(function timer() {
+                if(i<value.length)
+                    input.value += value[i]
+                if(i==value.length){
+                    handler({key:"Enter",currentTarget:input})
+                    clearInterval(interval)
+                }
+                i++
+            }, 100);
+
+
+        }
+        function handler(e){
+            let input = e.currentTarget;
+            let value = input.value;
+
+            if(e.key==="Enter"){
+                history.push(input.value)
+                index = history.length;
+                let value = input.value;
+                let accept = ['about','skills','work','contact','help','clear','whoami']
+                value = value.trim()
+                if(accept.indexOf(value)>-1){
+                    switch (value) {
+                        case 'clear': clear();
+                            break;
+                        case 'whoami' : about();
+                            break;
+                        case 'about' : about();
+                            break;
+                        case 'skills' : skills()
+                            break;
+                        case 'work': work();
+                            break;
+                        case 'contact': contact();
+                            break;
+                    }
+                }else{
+                    if(value.length > 0){
+                        let div = newElem('div');
+                        div.appendChild(textNode("Command '"+value+"' not found"))
+                        commandLine.appendChild(div);
+                    }
+                    newCommand(null)
+
+                }
+                input.disabled = true;
+                input.id= current++;
+                input.removeEventListener('keyup',handler);
+
+            }else if(e.key === "ArrowUp"){
+                if (index>0) {
+                    index--;
+                    input.value = history[index]
+                }else {
+                    index=0;
+                }
+            }else if(e.key === "ArrowDown"){
+                if(index<history.length-1) {
+                    index++;
+                    input.value = history[index]
+                }else {
+                    input.value = ""
+                    index = history.length
+                }
+
+            }
+
+
+        }
+
+        function about() {
+            let div = newElem('div')
+            let title = newElem('h3')
+            title.appendChild(textNode("##### Abdullah Alzhrani #####"))
+            div.setAttribute('class','title')
+            div.appendChild(title)
+
+            let p1 = newElem('p')
+            let p2 = newElem('p')
+            p1.appendChild(textNode("Abdullah is an IT major since 2019 who is very interested in web development specifically in backend development." +
+                " Backend development looks like a very interesting game for me specially when I play with permissions and roles or applying security solutions to avoid unauthorized access."))
+
+            p2.appendChild(textNode("Ambitious person, problem solver, poor UI designer but can implement frontend designs. Good at communicate, leadership and organizing priorities.") )
+
+            div.appendChild(p1)
+            div.appendChild(p2)
+            commandLine.appendChild(div);
+            newCommand();
+
+
+        }
+
+
+        function contact(){
+            let div = newElem('div')
+            let title = newElem('h3')
+            title.appendChild(textNode("##### Contact Abdullah #####"))
+            div.setAttribute('class','title')
+            div.appendChild(title)
+
+            let email = 'abodi.imz@gmail.com'
+            let phone = '0548404996'
+            let address = 'Jeddah, Almrwah dist'
+
+            let emailLink = newElem('a')
+            let phoneLink = newElem('a')
+
+            emailLink.setAttribute('href','mailto:'+email);
+            phoneLink.setAttribute('href','tel:'+phone);
+
+            emailLink.appendChild(textNode(email))
+            phoneLink.appendChild(textNode('054 840 4996'))
+
+            let p1 = newElem('p')
+            let p2 = newElem('p')
+            let p3 = newElem('p')
+            let span3 = newElem('span')
+
+
+            emailLink.setAttribute('class','text-magenta')
+            phoneLink.setAttribute('class','text-magenta')
+            span3.setAttribute('class','text-magenta')
+
+            p1.appendChild(textNode('Email: '))
+            p1.appendChild(emailLink)
+
+            p2.appendChild(textNode("Phone number: "))
+            p2.appendChild(phoneLink)
+
+            p3.appendChild(textNode("Address: "))
+            span3.appendChild(textNode(address))
+            p3.appendChild(span3)
+
+            div.appendChild(p1);
+            div.appendChild(p2);
+            div.appendChild(p3);
+
+            commandLine.appendChild(div);
+            newCommand();
+        }
+        function clear() {
+            commandLine.innerHTML = ""
+            newCommand(null)
+        }
+
+        function work() {
+            let work = [
+                {
+                    name: 'Narjis Salon Management System',
+                    description: "Narjis salon management system was built to manage sales for a women's salon. It manages all invoices where user can create, delete, print or update invoices. The system calculate the commissions for the specialists who take care of customers. The system was really helpful for Narjis Salon.",
+                    technology: 'Back-end: laravel , Front-end: HTML|CSS|JAVASCRIPT|BOOTSTRAP'
+                },
+                {
+                    name: 'Baloot Calculator',
+                    description: "Baloot calculator application built for Baloot players to help them to record the results. It allows user to record all results in the round until the round end. After that the app will start a new round. The app keep all rounds final results so, when the user stops playing he can check the final result in each round for both teams. The app now has +10K downloads",
+                    technology: "Android/Java"
+                }
+            ];
+            let div = newElem('div')
+            let title = newElem('h3')
+            title.appendChild(textNode("##### Projects in use #####"))
+            div.setAttribute('class','title')
+            div.appendChild(title)
+            work.forEach((value => {
+                let div1 = newElem('div');
+                let p1 = newElem("p")
+                p1.setAttribute('class','text-magenta')
+                let p2 = newElem("p")
+                let p3 = newElem("p")
+                p2.setAttribute('class','pl-5')
+                p3.setAttribute('class','pl-5')
+                p1.appendChild(textNode("- "+value.name))
+                let span1 = newElem('span')
+                span1.setAttribute('class','text-cyan')
+                let span2 = newElem('span')
+                span2.setAttribute('class','text-cyan')
+                span1.appendChild(textNode("Description: "))
+                span2.appendChild(textNode("Technology: "))
+                p2.appendChild(span1)
+                p3.appendChild(span2)
+                p2.appendChild(textNode(value.description))
+                p3.appendChild(textNode(value.technology))
+
+                div1.appendChild(p1)
+                div1.appendChild(p2)
+                div1.appendChild(p3)
+                div.appendChild(div1);
+            }))
+            commandLine.appendChild(div)
+            newCommand("work")
+
+        }
+
+
+        function skills() {
+            let skills = [
+                'Microsoft office',
+                'LibreOffice',
+                'Dealing with computer hardware',
+                'Linux management',
+                'Laravel',
+                'PHP',
+            ]
+            let div = newElem('div')
+            let title = newElem('h3')
+            let list = newElem('ul')
+            skills.forEach((value => {
+                let li = newElem("li")
+                li.appendChild(textNode("- "+value))
+                list.appendChild(li)
+            }))
+            title.appendChild(textNode("##### Skills #####"))
+            div.setAttribute('class','title')
+            div.appendChild(title)
+            div.appendChild(list)
+            
+            commandLine.appendChild(div)
+            newCommand("skills")
+        }
+        function newCommand(value) {
+            let div = newElem('div');
+            let label = newElem('label')
+            let input = newElem('input')
+            let h3 = newElem('h3')
+            let path = textNode("Abdullah@ubuntu:")
+            h3.setAttribute('class','path')
+            h3.appendChild(path)
+
+            input.setAttribute('id','command')
+            input.addEventListener('keyup',handler);
+
+            label.setAttribute('for','command')
+            label.appendChild(h3)
+
+            div.appendChild(label)
+            div.appendChild(input);
+            commandLine.appendChild(div);
+            input.focus()
+            input.onblur = function () {
+                setTimeout(function () {
+                    input.focus();
+                });
+            };
+
+        }
+        
+        function textNode(string) {
+            return document.createTextNode(string);
+        }
+        function newElem(name) {
+            return document.createElement(name)
+
+        }
+
+    </script>
+
+</body>
+</html>
