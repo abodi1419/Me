@@ -96,17 +96,20 @@
         .text-magenta {
             color: #ad7fa8;
         }
+        .pointer{
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h3>Terminal</h3>
-        <div class="close">X</div>
+        <div class="close"><img class="pointer" src="close.png" onclick="window.close()" alt="close"></div>
         <ul>
-            <li onclick="submit('about')">About</li>
-            <li onclick="submit('skills')">Skills</li>
-            <li onclick="submit('work')">Work</li>
-            <li onclick="submit('contact')">Contact</li>
+            <li class="pointer" onclick="submit('about')">About</li>
+            <li class="pointer" onclick="submit('skills')">Skills</li>
+            <li class="pointer" onclick="submit('work')">Work</li>
+            <li class="pointer" onclick="submit('contact')">Contact</li>
         </ul>
     </div>
     <div class="content" id="commandLine">
@@ -137,15 +140,28 @@
             let input = document.getElementById('command')
             input.focus()
             let i =0
-            let interval = setInterval(function timer() {
-                if(i<value.length)
-                    input.value += value[i]
-                if(i==value.length){
-                    handler({key:"Enter",currentTarget:input})
-                    clearInterval(interval)
-                }
-                i++
-            }, 100);
+            if(input.value.length>0){
+                let delinterval = setInterval(function timer() {
+                    if(input.value.length>0)
+                        input.value = input.value.substring(0,input.value.length-2)
+                    if(input.value.length==0){
+                        clearInterval(delinterval)
+                        submit(value)
+                    }
+                    i++
+                }, 100);
+            }else {
+                let interval = setInterval(function timer() {
+                    if(i<value.length)
+                        input.value += value[i]
+                    if(i==value.length){
+                        handler({key:"Enter",currentTarget:input})
+                        clearInterval(interval)
+                    }
+                    i++
+                }, 100);
+            }
+
 
 
         }
