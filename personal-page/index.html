@@ -65,11 +65,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100vh;
         }
         .command input{
             flex-grow: 100;
         }
         .content{
+            height: 100vh;
             background-color: #3f3f3f;
             padding-top: 51px;
 
@@ -103,7 +105,7 @@
     <div class="content" id="commandLine">
 
         <div class="command">
-            <label for="command"><h3 class="path">Abdullah@ubuntu:</h3></label>
+            <label for="command"><h3 class="path">~$:</h3></label>
             <input id="command">
         </div>
 
@@ -352,7 +354,7 @@
             let label = newElem('label')
             let input = newElem('input')
             let h3 = newElem('h3')
-            let path = textNode("Abdullah@ubuntu:")
+            let path = textNode("~$:")
 
             div.setAttribute('class','command')
 
