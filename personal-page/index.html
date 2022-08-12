@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Title</title>
     <style>
+        @media screen and (max-width: 767px) {
+            input, select, textarea {
+                font-size: 16px;
+            }
+        }
         body{
             background-color: #2f2f2f;
             color: white;
@@ -65,13 +70,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100vh;
+            max-width: 100vh;
+
         }
         .command input{
             flex-grow: 100;
         }
         .content{
-            height: 100vh;
+            min-height: 99vh;
             background-color: #3f3f3f;
             padding-top: 51px;
 
