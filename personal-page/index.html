@@ -113,7 +113,7 @@
 
         <div class="command">
             <label for="command"><h3 class="path">~$:</h3></label>
-            <input id="command">
+            <input id="command" autocapitalize="none">
         </div>
 
     </div>
@@ -135,6 +135,7 @@
         function submit(value) {
 
             let input = document.getElementById('command')
+            input.focus()
             let i =0
             let interval = setInterval(function timer() {
                 if(i<value.length)
