@@ -15,6 +15,9 @@
             color: white;
             margin: 0;
         }
+        input:disabled{
+            color: white;
+        }
         .header{
             position: fixed;
 
@@ -168,7 +171,7 @@
         function handler(e){
             let input = e.currentTarget;
             let value = input.value;
-
+            input.value = input.value.toLowerCase()
             if(e.key==="Enter"){
                 history.push(input.value)
                 index = history.length;
